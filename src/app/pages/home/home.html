@@ -1,0 +1,61 @@
+<ion-app>
+  
+    <ion-header translucent>
+      <ion-toolbar>
+        <ion-title>Donate To Hospitals dApp</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <!--  -->
+    <!-- <ion content fullscreen>
+      
+    </ion> -->
+    <ion-content fullscreen>
+        <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+            <ion-fab-button>
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="top">
+              <ion-fab-button color="light">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button color="light">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
+
+
+        <ion-item button [routerLink]="['/tab3Root']">
+          <ion-label >
+            Create Campaign
+          </ion-label>
+        </ion-item>
+
+        <ion-card>
+            <img src="https://raw.githubusercontent.com/ionic-team/ionic-docs/v4/src/demos/api/card/madison.jpg" />
+            <ion-card-header>
+              <ion-card-subtitle>Location</ion-card-subtitle>
+              <ion-card-title>Facility Name</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+            The Donate to Hospitals dApp Sample Donation card.
+            </ion-card-content>
+            <ion-button expand="block">Donate</ion-button>
+        </ion-card>
+
+        <ion-card *ngFor="let item of facilityList">
+          <!-- <img src="https://raw.githubusercontent.com/ionic-team/ionic-docs/v4/src/demos/api/card/madison.jpg" /> -->
+            <!-- <div *ngFor="let item of images | async"> -->
+              <!-- <img [src]="item.filepath" /> -->
+            <!-- </div> -->
+            <ion-card-header>
+              <ion-card-subtitle>{{item.Address}}</ion-card-subtitle>
+              <ion-card-title>{{item.Name}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              {{item.Needs}}
+            </ion-card-content>
+            <ion-button expand="block">Donate</ion-button>
+        </ion-card>
+    </ion-content>
+  </ion-app>
