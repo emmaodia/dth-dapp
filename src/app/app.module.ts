@@ -16,6 +16,8 @@ import { TabsPage } from './pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 
+import { Clipboard } from '@ionic-native/clipboard/ngx';
+
 import { environment } from 'src/environments/environment';
 
 import { AngularFireModule } from '@angular/fire';
@@ -52,6 +54,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
   providers: [
     StatusBar,
     SplashScreen,
+    Clipboard,
     Platform,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: ErrorHandler, useClass: ErrorHandler}

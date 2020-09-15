@@ -8,7 +8,8 @@ import { HomePage } from './pages/home/home';
 const routes: Routes = [
   { path: 'tab1Root', component: HomePage },
   { path: 'tab2Root', component: AboutPage },
-  { path: 'tab3Root', component: ContactPage }
+  { path: 'tab3Root', component: ContactPage },
+  { path: 'donate', loadChildren: './pages/donate/donate.module#DonatePageModule' }
 ];
 
 @NgModule({

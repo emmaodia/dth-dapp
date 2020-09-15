@@ -1,0 +1,44 @@
+<ion-app>
+
+  <ion-header translucent>
+    <ion-toolbar>
+      <ion-title>Donate To Hospitals dApp</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content fullscreen>
+    <ion-item>
+      <ion-label >
+          Paste the Wallet Address and Enter Amount to Donate
+     </ion-label>
+  </ion-item>
+
+  <ion-card class="ion-padding">
+    <form [formGroup]="donateForm" (ngSubmit)="Pay()">
+
+      <ion-item>
+        <ion-label position="floating">Wallet <Address></Address></ion-label>
+        <ion-input formControlName="receiver"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label position="floating">Amount</ion-label>
+        <ion-input formControlName="amount"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label position="floating">Notes</ion-label>
+        <ion-input formControlName="memo"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-button expand="block" fill="outline" (click)="Pay()" [disabled]="donateForm.invalid">
+          <ion-icon size="small" slot="icon-only" name="add"></ion-icon>
+          &nbsp;Pay
+        </ion-button>
+      </ion-item>
+  
+    </form>
+  </ion-card>
+  </ion-content>
+</ion-app>

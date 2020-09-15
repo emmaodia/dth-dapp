@@ -40,22 +40,32 @@
             <ion-card-content>
             The Donate to Hospitals dApp Sample Facility Template.
             </ion-card-content>
-            <ion-button expand="block">Donate</ion-button>
+            <ion-button expand="block" (click)="load()">Donate</ion-button>
+        </ion-card>
+
+        <ion-card *ngFor="let item of images | async">
+          <ion-card-content>
+            <img [src]="item.filepath" />
+            <a [href]="item.filepath" target="_blank" rel="noopener">Download</a>
+          </ion-card-content>
         </ion-card>
 
         <ion-card *ngFor="let item of facilityList">
           <!-- <img src="https://raw.githubusercontent.com/ionic-team/ionic-docs/v4/src/demos/api/card/madison.jpg" /> -->
-            <!-- <div *ngFor="let item of images | async"> -->
-              <!-- <img [src]="item.filepath" /> -->
-            <!-- </div> -->
+            <div *ngIf="UploadedFileURL | async as url">
+              <img [src]="url" />
+            
+            </div>
             <ion-card-header>
               <ion-card-subtitle>{{item.Address}}</ion-card-subtitle>
+              <ion-card-subtitle (click)="copyText()">{{item.Wallet}} </ion-card-subtitle> Click on Wallet Address to Copy
+              
               <ion-card-title>{{item.Name}}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
               {{item.Needs}}
             </ion-card-content>
-            <ion-button expand="block">Donate</ion-button>
+            <ion-button expand="block" [routerLink]="['/donate']">Donate</ion-button>
         </ion-card>
     </ion-content>
   </ion-app>

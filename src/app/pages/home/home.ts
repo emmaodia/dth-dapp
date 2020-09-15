@@ -3,9 +3,20 @@ import { NavController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { FirebaseService } from '../../services/firebase.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
+import { loadavg } from 'os';
+
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
+
+interface ImagesData {
+  filepath: string;
+}
 
 interface FacilityData {
   Name: string;
@@ -21,13 +32,43 @@ interface FacilityData {
 })
 export class HomePage {
 
+  task: AngularFireUploadTask;
+  UploadedFileURL: Observable<string>;
   facilityList = [];
   facilityData: FacilityData;
   facilityForm: FormGroup;
 
-  constructor(public navCtrl: NavController, private menu: MenuController, private firebaseService: FirebaseService,
-    public fb: FormBuilder) {
+  // CopyTextAreaText:string = this.facilityData.Wallet;
+  PasteTextAreaText:string = "Paste here!";
+
+  images: Observable<ImagesData[]>;
+
+  private imageCollection: AngularFirestoreCollection<ImagesData>;
+  constructor(public navCtrl: NavController, 
+    private menu: MenuController, 
+    private firebaseService: FirebaseService,
+    private storage: AngularFireStorage, private database: AngularFirestore,
+    public fb: FormBuilder,
+    private clipboard: Clipboard) {
       this.facilityData = {} as FacilityData;
+      this.imageCollection = database.collection<ImagesData>('facilityImages');
+      this.images = this.imageCollection.valueChanges();
+  }
+
+  copyText(){
+    this.clipboard.copy(this.facilityData.Wallet);
+  }
+
+  pasteText(){
+    this.clipboard.paste().then(
+      (resolve: string) => {
+         this.PasteTextAreaText = resolve;
+         console.log(resolve);
+       },
+       (reject: string) => {
+         console.error('Error: ' + reject);
+       }
+     );
   }
 
   OpenFirst() {
@@ -42,6 +83,37 @@ export class HomePage {
   openCustom() {
     this.menu.enable(true, 'custom');
     this.menu.open('custom');
+  }
+
+  uploadFile(event: FileList) {
+
+    const file = event.item(0)
+
+    // Validation for Images Only
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type :( ')
+      return;
+    }
+
+
+    // The storage path
+    const path = `facilityStorage/${new Date().getTime()}_${file.name}`;
+
+
+    //File reference
+    const fileRef = this.storage.ref(path);
+
+    // The main task
+    // this.task = this.storage.upload(path, file);
+
+      finalize(() => {
+        // Get uploaded file storage path
+        this.UploadedFileURL = fileRef.getDownloadURL();
+      });  
+  }
+
+  load(){
+    console.log(this.imageCollection.get);
   }
 
   ngOnInit() {
@@ -68,6 +140,8 @@ export class HomePage {
 
     });
   }
+
+  
 
   ionViewDidEnter() {
     // When the main screen is ready to be displayed, ask the app manager to make the app visible,
