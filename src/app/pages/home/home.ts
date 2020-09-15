@@ -74,11 +74,18 @@ export class HomePage {
     // in case it was started hidden while loading.
     appManager.setVisible("show");
 
-    // appManager.sendIntent("action", {mydata: datavalue}, null, (response: any) => {
-    //   // Intent was handled by another app and response data is returned
-    // }, (err) => {
-    //     // Something wrong happened
-    // })
+    appManager.sendIntent(
+      "pay",
+      {
+        receiver: 'ESe59nqkGkUVxX4jxNRM9tUQjXVQgyju99',
+        amount: '0.1',
+        memo: null,
+      },
+     {},
+      (res) => { console.log(res); },
+      (err) => { console.log(err); }
+    );
+    
     // Update system status bar every time we re-enter this screen.
     titleBarManager.setTitle("Home");
     titleBarManager.setBackgroundColor("#000000");
